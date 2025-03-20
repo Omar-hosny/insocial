@@ -1,7 +1,7 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
+const nextConfig = {
+  images: {
+    domains: ["eyd36m5cuk.ufs.sh"],
+  },
 };
 
 export default nextConfig;
