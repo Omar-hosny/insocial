@@ -2,6 +2,7 @@
 import { getPosts } from "@/actions/post.actions";
 import { Heart, MessageCircle } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 type Posts = Awaited<ReturnType<typeof getPosts>>;
 type Post = Posts[number];
@@ -10,7 +11,10 @@ const PostItem = ({ post }: { post: Post }) => {
   if (!post) return null;
   return (
     <article className="w-full flex items-start gap-2 border rounded-xl my-2">
-      <div className="p-2  overflow-hidden">
+      <Link
+        href={`/profile/${post.author.username}`}
+        className="p-2  overflow-hidden"
+      >
         <Image
           src={post.author.image ?? "/profile.png"}
           alt={post.author.name}
@@ -18,11 +22,17 @@ const PostItem = ({ post }: { post: Post }) => {
           height={35}
           className="rounded-full"
         />
-      </div>
+      </Link>
 
       <div className="w-full flex items-start flex-col">
         <div className="flex items-center gap-1 w-full">
-          <h1 className="text-lg">{post.author.name}</h1>
+          <Link
+            href={`/profile/${post.author.username}`}
+            className="text-sm font-semibold"
+          >
+            <h1 className="text-lg">{post.author.name}</h1>
+          </Link>
+
           <h2 className="text-sm text-gray-500">@{post.author.username}</h2>
         </div>
         <div className="w-full flex flex-col items-start">

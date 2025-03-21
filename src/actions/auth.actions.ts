@@ -189,6 +189,33 @@ export async function getCurrentUser() {
   return user;
 }
 
+// get user by username
+export async function getUserByUsername(username: string) {
+  if (!username) return null;
+  // get the user data
+  const user = await prisma.user.findUnique({
+    where: {
+      username: username,
+    },
+    select: {
+      name: true,
+      email: true,
+      username: true,
+      image: true,
+      bio: true,
+      id: true,
+      _count: {
+        select: {
+          followers: true,
+          following: true,
+          posts: true,
+        },
+      },
+    },
+  });
+  return user;
+}
+
 // logout action function
 export async function logout() {
   // delete session

@@ -1,5 +1,6 @@
 import { getCurrentUser } from "@/actions/auth.actions";
 import Image from "next/image";
+import Link from "next/link";
 
 const ProfileCard = async () => {
   const user = await getCurrentUser();
@@ -7,7 +8,10 @@ const ProfileCard = async () => {
   return (
     <div className="w-full flex flex-col items-center">
       {/* avatar */}
-      <div className=" rounded-full overflow-hidden">
+      <Link
+        href={`/profile/${user.username}`}
+        className=" rounded-full overflow-hidden"
+      >
         <Image
           src={user.image || "/profile.png"}
           alt={user.name}
@@ -15,10 +19,12 @@ const ProfileCard = async () => {
           height={50}
           className="rounded-full"
         />
-      </div>
+      </Link>
       {/* name */}
       <div className="flex flex-col items-center gap-1">
-        <p>{user.name}</p>
+        <Link href={`/profile/${user.username}`}>
+          <p>{user.name}</p>
+        </Link>
         <p>@{user.username}</p>
       </div>
       {/* bio */}

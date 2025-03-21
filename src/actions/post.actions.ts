@@ -183,3 +183,61 @@ export async function getPosts() {
     throw new Error("Failed to fetch posts");
   }
 }
+
+// get user posts by username
+export async function getUserPosts(username: string) {
+  try {
+    if (!username) {
+      throw new Error("User not found");
+    }
+    const posts = await prisma.post.findMany({
+      where: {
+        author: {
+          username: username,
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+      include: {
+        author: {
+          select: {
+            id: true,
+            name: true,
+            image: true,
+            username: true,
+          },
+        },
+        comments: {
+          include: {
+            author: {
+              select: {
+                id: true,
+                username: true,
+                image: true,
+                name: true,
+              },
+            },
+          },
+          orderBy: {
+            createdAt: "asc",
+          },
+        },
+        likes: {
+          select: {
+            userId: true,
+          },
+        },
+        _count: {
+          select: {
+            likes: true,
+            comments: true,
+          },
+        },
+      },
+    });
+    return posts;
+  } catch (error) {
+    console.log(error);
+  }
+}

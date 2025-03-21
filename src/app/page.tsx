@@ -20,12 +20,19 @@ export default async function Home() {
         </section>
 
         <section className=" p-2  w-full flex flex-col items-center">
-          {posts.map((post) => (
-            <PostItem key={post.id} post={post} />
-          ))}
+          {posts.length === 0 ? (
+            <div className="w-full flex flex-col items-center gap-2">
+              <h1 className="text-lg">No posts yet!</h1>
+              <p className="text-sm">
+                Create posts or follow other users to see their posts
+              </p>
+            </div>
+          ) : (
+            posts.map((post) => <PostItem key={post.id} post={post} />)
+          )}
         </section>
       </main>
-      <aside className=" col-span-3 border rounded-2xl bg-gray-50 p-2 dark:bg-transparent h-max">
+      <aside className="col-span-3 border rounded-2xl  p-2 dark:bg-transparent h-max">
         <SuggestionCard />
       </aside>
     </div>
