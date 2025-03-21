@@ -5,8 +5,7 @@ import Link from "next/link";
 import React from "react";
 
 const ProfilePage = async ({ params }: { params: { username: string } }) => {
-  const { username } = await params;
-  const user = await getUserByUsername(username);
+  const user = await getUserByUsername(params.username);
   if (!user) return null;
   return (
     <div className="w-full flex flex-col items-center ">
