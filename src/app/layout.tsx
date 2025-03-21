@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Next social web app",
-  description: "social website for everyone",
+  title: "inSocial - social website for everyone",
+  description: "in -social is a social website for everyone",
 };
 
 export default function RootLayout({

@@ -23,7 +23,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
         </div>
         {/* name */}
         <div className="flex flex-col items-center gap-1">
-          <Link href={`/profile/${user.id}`}>
+          <Link href={`/profile/${user.username}`}>
             <p>{user.name}</p>
           </Link>
           <p className="text-gray-400 dark:text-gray-50 text-sm">
