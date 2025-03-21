@@ -45,7 +45,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
         <h2>Your Posts</h2>
       </div>
       {/* posts */}
-      <Posts username={username} />
+      <Posts username={params.username} />
     </div>
   );
 };
