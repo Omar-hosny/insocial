@@ -5,7 +5,7 @@ import Link from "next/link";
 import React from "react";
 
 const ProfilePage = async ({ params }: { params: { username: string } }) => {
-  const user = await getUserByUsername(params.username);
+  const user = await getUserByUsername(params.username as string);
   if (!user) return null;
   return (
     <div className="w-full flex flex-col items-center ">
@@ -45,7 +45,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
         <h2>Your Posts</h2>
       </div>
       {/* posts */}
-      <Posts username={params.username} />
+      <Posts username={params.username as string} />
     </div>
   );
 };
