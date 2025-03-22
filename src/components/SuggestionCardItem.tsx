@@ -22,11 +22,11 @@ const SuggestionCardItem = ({ user }: { user: User }) => {
         <Link
           href={`/profile/${user.username}`}
           id="image"
-          className="overflow-hidden"
+          className="overflow-hidden mt-1"
         >
           <Image
-            width={38}
-            height={38}
+            width={50}
+            height={50}
             src={user.image ?? "/profile.png"}
             alt={user.username}
             className="rounded-full"

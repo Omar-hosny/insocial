@@ -1,13 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
 import { getPosts } from "@/actions/post.actions";
-import { Heart, MessageCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import PostCartActions from "./PostCartActions";
+import { getCurrentUser } from "@/actions/auth.actions";
 
 type Posts = Awaited<ReturnType<typeof getPosts>>;
 type Post = Posts[number];
 
-const PostItem = ({ post }: { post: Post }) => {
+const PostItem = async ({ post }: { post: Post }) => {
+  const user = await getCurrentUser();
   if (!post) return null;
   return (
     <article className="w-full flex items-start gap-2 border rounded-xl my-2">
@@ -51,16 +53,12 @@ const PostItem = ({ post }: { post: Post }) => {
           </div>
         </div>
         {/* post interactions */}
-        <div className="text-sm flex items-center gap-2 py-2">
-          <div className="flex items-center gap-0.5">
-            <Heart size={18} />
-            <p className="text-xs">{post.likes.length} likes</p>
-          </div>
-          <div className="flex items-center gap-0.5">
-            <MessageCircle size={18} />
-            <p className="text-xs">{post.comments.length} comments</p>
-          </div>
-        </div>
+        <PostCartActions
+          postId={post.id}
+          isLiked={post.likes.some((like) => like.userId === user?.id)}
+          likesCount={post.likes.length}
+          commentsCount={post.comments.length}
+        />
       </div>
     </article>
   );

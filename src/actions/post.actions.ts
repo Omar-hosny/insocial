@@ -241,3 +241,62 @@ export async function getUserPosts(username: string) {
     console.log(error);
   }
 }
+
+// add like to post
+export async function likePost(postId: string) {
+  // get current user
+  const user = await getCurrentUser();
+  // check if user is authenticated
+  if (!user || !user.id) {
+    throw new Error("User not authenticated");
+  }
+  // check if post exists
+  const post = await prisma.post.findUnique({
+    where: {
+      id: postId,
+    },
+  });
+  // check if post exists
+  if (!post) {
+    throw new Error("Post not found or deleted by author");
+  }
+  // check if user has already liked post
+  const existingLike = await prisma.like.findUnique({
+    where: {
+      userId_postId: {
+        userId: user.id,
+        postId: postId,
+      },
+    },
+  });
+  // check if user has already liked post then unlike post
+  if (existingLike) {
+    await prisma.like.delete({
+      where: {
+        userId_postId: {
+          userId: user.id,
+          postId: postId,
+        },
+      },
+    });
+    revalidatePath("/");
+    return { success: true, message: "Post unliked" };
+  }
+  // like post
+  await prisma.like.create({
+    data: {
+      user: {
+        connect: {
+          id: user.id,
+        },
+      },
+      post: {
+        connect: {
+          id: postId,
+        },
+      },
+    },
+  });
+  revalidatePath("/");
+  return { success: true, message: "Post liked" };
+}
